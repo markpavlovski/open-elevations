@@ -1,35 +1,34 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
+import ElevationService from './components/ElevationService.js'
+
 
 class App extends Component {
 
   componentWillMount(){
-    const openElevations = 'https://api.open-elevation.com/api/v1/lookup'
-    axios.post(openElevations, {
-    	"locations":
-    	[
-    		{
-    			"latitude": 10,
-    			"longitude": 10
-    		},
-    		{
-    			"latitude":20,
-    			"longitude": 20
-    		},
-    		{
-    			"latitude":41.161758,
-    			"longitude":-8.583933
-    		}
-    	]
-    })
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
+
+    ElevationService.request()
+    // const openElevations = 'https://api.open-elevation.com/api/v1/lookup'
+    // const anchorLocation = {
+    //   latitude: 47.668939,
+    //   longitude: -122.384951
+    // }
+    //
+    // const reqs = [...Array(10)].map(req => axios.post(openElevations, {
+    // 	"locations":
+    // 	[...Array(20)].map(el=>anchorLocation)
+    // }))
+    //
+    // Promise.all(reqs)
+    // .then(responses => {
+    //   console.log(responses.length)
+    //   responses.forEach(response =>
+    //   console.log(response.data.results)
+    // )})
+    // .catch(function (error) {
+    //   console.log(error)
+    // })
   }
 
   render() {
