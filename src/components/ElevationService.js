@@ -20,7 +20,27 @@ class ElevationService {
     const matrixSize = 2 * stepCount + 1
 
     const locationMatrix = ElevationService.createLocationMatrix(anchorLatlong, matrixSize, stepSize, stepCount)
-    console.log(locationMatrix);
+
+
+
+    //
+    // const REQUEST_SIZE_THRESHOLD = 2000
+    // const requestRowCount = Math.floor(locationMatrix.length ** 2 / REQUEST_SIZE_THRESHOLD ) + 1
+    // console.log(requestRowCount)
+    // const reqRows = [...Array(requestRowCount)].map(el => [])
+    // console.log(reqRows)
+    // locationMatrix.forEach((matrixRow,row) => matrixRow.forEach((location, col) => {
+    //   const length = matrixRow.length
+    //   const index = length * row + col
+    //   const reqRowIndex = Math.floor(index / REQUEST_SIZE_THRESHOLD )
+    //   reqRows[reqRowIndex].push(location)
+    // }))
+    // console.log(reqRows)
+
+    const reqData = ElevationService.matrixToRequest(locationMatrix)
+    console.log('!!!',reqData);
+
+
 
     const url = 'https://api.open-elevation.com/api/v1/lookup'
     const data = {
@@ -60,6 +80,19 @@ class ElevationService {
         })
       )
     return locationMatrix
+  }
+
+  static matrixToRequest(matrix){
+    const threshold = 2000
+    const requestRowCount = Math.floor(matrix.length ** 2 / threshold ) + 1
+    const reqData = [...Array(requestRowCount)].map(el => [])
+    matrix.forEach((matrixRow,row) => matrixRow.forEach((location, col) => {
+      const length = matrixRow.length
+      const index = length * row + col
+      const reqRowIndex = Math.floor(index / threshold )
+      reqData[reqRowIndex].push(location)
+    }))
+    return reqData
   }
 
 
